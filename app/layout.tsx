@@ -6,30 +6,28 @@ import './globals.css';
 const dmSans = DM_Sans({ subsets: ['latin'], variable: '--font-sans' });
 
 const geistSans = Geist({
-	variable: '--font-geist-sans',
-	subsets: ['latin'],
+    variable: '--font-geist-sans',
+    subsets: ['latin'],
 });
 
 const geistMono = Geist_Mono({
-	variable: '--font-geist-mono',
-	subsets: ['latin'],
+    variable: '--font-geist-mono',
+    subsets: ['latin'],
 });
 
 export const metadata: Metadata = {
-	title: 'Braindump',
-	description: 'Dump now - find later.',
+    title: 'Linksavr',
+    description: 'Dump now - find later.',
 };
 
 export default function RootLayout({
-	children,
+    children,
 }: Readonly<{
-	children: React.ReactNode;
+    children: React.ReactNode;
 }>) {
-	return (
-		<html lang='en' className={`${geistMono.variable} dark`}>
-			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-				{children}
-			</body>
-		</html>
-	);
+    return (
+        <html lang='en' className={`${geistMono.variable} dark`}>
+            <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>{children}</body>
+        </html>
+    );
 }
