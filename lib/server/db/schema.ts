@@ -45,6 +45,7 @@ export const LinksTable = sqliteTable(
 	(table) => [
 		index('link_embedding_vector_idx').on(sql`libsql_vector_idx(${table.embedding})`),
 		index('link_hash_idx').on(table.contentHash),
+		index('link_title_idx').on(table.title),
 	],
 );
 

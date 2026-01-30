@@ -3,7 +3,7 @@ import { db } from '../db/db';
 import { Err, Ok } from 'ts-results-es';
 import { DatabaseLink, LinksTable } from '../db/schema';
 import { pickUrlComponents } from '@/lib/utils/url';
-import { eq } from 'drizzle-orm';
+import { eq, like, sql } from 'drizzle-orm';
 import { LinkQueue } from '../db/link-queue';
 
 export const LinkService = createService(db, {
@@ -60,5 +60,21 @@ export const LinkService = createService(db, {
 			return Err(DomainError.of(`Unable to update link by ID: ${id}`));
 
 		return Ok(undefined);
+	},
+
+	/**
+	 * Paginates through links by their created date in
+	 * descending order, optionally filtering by a title prefix.
+	 */
+	paginate: async (client, limit: number, offset: number, startsWith?: string) => {
+		const res = await client.query.LinksTable.findMany({
+			limit,
+			offset,
+			columns: { content: false, contentHash: false },
+			orderBy: (t, { desc }) => desc(t.createdAt),
+			where: startsWith ? (t, { like }) => like(t.title, `%${startsWith}`) : undefined,
+		});
+
+		return Ok(res);
 	},
 });
